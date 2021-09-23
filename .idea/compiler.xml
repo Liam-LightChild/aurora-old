@@ -3,8 +3,6 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="16">
       <module name="aurora.commonTest" target="1.8" />
-      <module name="aurora.jvmMain" target="1.8" />
-      <module name="aurora.jvmTest" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
