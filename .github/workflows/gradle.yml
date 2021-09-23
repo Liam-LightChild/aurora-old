@@ -26,7 +26,7 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew linuxX64MainBinaries
+      run: ./gradlew linuxX64MainKlibrary linkDebugTestLinuxX64
     
   build-mac:
     if: false
@@ -40,10 +40,12 @@ jobs:
         java-version: '16'
         distribution: 'adopt'
         cache: gradle
+    - name: Set up glfw
+      run: brew install glfw
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew macosX64MainBinaries
+      run: ./gradlew macosX64MainKlibrary linkDebugTestMacosX64
     
   build-windows:
     if: false
@@ -57,6 +59,19 @@ jobs:
         java-version: '16'
         distribution: 'adopt'
         cache: gradle
+    - name: Checkout GLFW
+      uses: actions/checkout@v2
+      with:
+        repository: glfw/glfw
+        path: glfw
+    - name: Build GLFW
+      run: |
+        cd glfw
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build .
+        cmake --install .
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
