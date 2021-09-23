@@ -1,0 +1,5 @@
+headers = GLFW/glfw3.h GLFW/glfw3native.h
+# OpenGL comes built-in with Kotlin/Native on Mac
+staticLibraries = libglfw3.a
+libraryPaths = /usr/local/lib /usr/lib64 /usr/lib/x86_64-linux-gnu
+linkerOpts = -framework Cocoa -framework OpenGL -framework IOKit -framework CoreVideo

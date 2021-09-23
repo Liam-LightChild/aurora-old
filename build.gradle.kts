@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "com.liamcoalstudio"
-version = "1.0-SNAPSHOT"
+version = "2022.1-2021.09.23.1"
 
 repositories {
     mavenCentral()
@@ -23,20 +23,20 @@ kotlin {
             }
         }
     }
+
+    macosX64 {
+        compilations.getByName("main") {
+            val external by cinterops.creating {
+                defFile("src/macosX64Main/external.def")
+                packageName("com.liamcoalstudio.aurora")
+                includeDirs("/usr/local/include")
+            }
+        }
+    }
+
     mingwX64()
-    macosX64()
 
     sourceSets {
-//        val nativeMain by getting {
-//            dependencies {
-//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt")
-//                implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.21")
-//                implementation("com.squareup.okio:okio-multiplatform:2.10.0")
-//            }
-//        }
-//
-//        val nativeTest by getting
-
         commonMain {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
