@@ -10,9 +10,9 @@ repositories {
 }
 
 kotlin {
-    jvm {
-        withJava()
-    }
+//    jvm {
+//        withJava()
+//    }
 
     linuxX64 {
         compilations.getByName("main") {
@@ -44,10 +44,14 @@ kotlin {
             }
         }
 
-        commonTest {}
+        commonTest {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
 
-        val jvmMain by getting // TODO
-        val jvmTest by getting
+//        val jvmMain by getting // TODO
+//        val jvmTest by getting
 
         val linuxX64Main by getting
         val linuxX64Test by getting
