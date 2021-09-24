@@ -10,9 +10,10 @@ repositories {
 }
 
 kotlin {
-//    jvm {
-//        withJava()
-//    }
+    // TODO
+    // jvm {
+    //     withJava()
+    // }
 
     linuxX64 {
         compilations.getByName("main") {
@@ -34,7 +35,7 @@ kotlin {
         }
     }
 
-    mingwX64()
+    // mingwX64() // TODO
 
     sourceSets {
         commonMain {
@@ -50,14 +51,14 @@ kotlin {
             }
         }
 
-//        val jvmMain by getting // TODO
-//        val jvmTest by getting
+        // val jvmMain by getting
+        // val jvmTest by getting
 
         val linuxX64Main by getting
         val linuxX64Test by getting
 
-        val mingwX64Main by getting // TODO
-        val mingwX64Test by getting
+        // val mingwX64Main by getting
+        // val mingwX64Test by getting
 
         val macosX64Main by getting
         val macosX64Test by getting
