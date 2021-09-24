@@ -119,7 +119,7 @@ actual class Window private constructor(val glfw: COpaquePointer) {
                     title,
                     null,
                     share?.glfw?.reinterpret()
-                )?.reinterpret() ?: throw InternalErrorException.glfw()
+                )?.reinterpret() ?: throw glfwError()
             )
         }
 
@@ -149,7 +149,7 @@ actual class Window private constructor(val glfw: COpaquePointer) {
                     title,
                     glfwGetPrimaryMonitor(),
                     share?.glfw?.reinterpret()
-                )?.reinterpret() ?: throw InternalErrorException.glfw()
+                )?.reinterpret() ?: throw glfwError()
             )
         }
     }
