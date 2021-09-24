@@ -118,9 +118,9 @@ actual class Buffer actual constructor(
                 ptr.readBytes(s.value)
             } else {
                 bind()
-                glGetBufferParameteriv!!(native, GL_BUFFER_SIZE.convert(), s.ptr)
+                glGetBufferParameteriv!!(type.native, GL_BUFFER_SIZE.convert(), s.ptr)
                 val ptr = nativeHeap.allocArray<ByteVar>(s.value)
-                glGetNamedBufferSubData!!(native, 0, s.value.convert(), ptr)
+                glGetNamedBufferSubData!!(type.native, 0, s.value.convert(), ptr)
                 ptr.readBytes(s.value)
             }
         }

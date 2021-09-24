@@ -4,15 +4,15 @@ import kotlinx.cinterop.*
 import platform.OpenGL3.*
 import platform.OpenGLCommon.*
 
-actual enum class BufferMutability(val draw: GLenum, val copy: GLenum, val read: GLenum) {
+actual enum class BufferMutability(val draw: Int, val copy: Int, val read: Int) {
     Static(GL_STATIC_DRAW, GL_STATIC_COPY, GL_STATIC_READ),
     Dynamic(GL_DYNAMIC_DRAW, GL_DYNAMIC_COPY, GL_DYNAMIC_READ),
     Stream(GL_STREAM_DRAW, GL_STREAM_COPY, GL_STREAM_READ)
 }
 
 actual enum class BufferType(val native: GLenum) {
-    VertexArrays(GL_ARRAY_BUFFER),
-    ElementArrays(GL_ELEMENT_ARRAY_BUFFER)
+    VertexArrays(GL_ARRAY_BUFFER.convert()),
+    ElementArrays(GL_ELEMENT_ARRAY_BUFFER.convert())
 }
 
 actual enum class BufferUsage {
@@ -108,9 +108,9 @@ actual class Buffer actual constructor(
         get() {
             val s = nativeHeap.alloc<GLintVar>()
             bind()
-            glGetBufferParameteriv(id, GL_BUFFER_SIZE.convert(), s.ptr)
+            glGetBufferParameteriv(type.native, GL_BUFFER_SIZE.convert(), s.ptr)
             val ptr = nativeHeap.allocArray<ByteVar>(s.value)
-            glGetNamedBufferSubData(id, 0, s.value.convert(), ptr)
+            glGetBufferSubData(type.native, 0, s.value.convert(), ptr)
             return ptr.readBytes(s.value)
         }
         set(value) {
