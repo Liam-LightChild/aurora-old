@@ -1,4 +1,3 @@
 package com.liamcoalstudio.aurora
 
-class InternalErrorException : Exception() {
-}
+class InternalErrorException(message: String? = null) : Exception(message)
