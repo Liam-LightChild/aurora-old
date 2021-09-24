@@ -1,0 +1,78 @@
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 16
+      uses: actions/setup-java@v2
+      with:
+        java-version: '16'
+        distribution: 'adopt'
+        cache: gradle
+    - name: Set up glfw
+      run: sudo apt install libglfw3-dev libglew-dev
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew linuxX64MainKlibrary linkDebugTestLinuxX64
+    
+  build-mac:
+    runs-on: macos-11
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 16
+      uses: actions/setup-java@v2
+      with:
+        java-version: '16'
+        distribution: 'adopt'
+        cache: gradle
+    - name: Set up glfw
+      run: brew install glfw
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew macosX64MainKlibrary linkDebugTestMacosX64
+  
+  build-windows:
+    if: false
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 16
+      uses: actions/setup-java@v2
+      with:
+        java-version: '16'
+        distribution: 'adopt'
+        cache: gradle
+    - name: Checkout GLFW
+      uses: actions/checkout@v2
+      with:
+        repository: glfw/glfw
+        path: glfw
+    - name: Build GLFW
+      run: |
+        cd glfw
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build .
+        cmake --install .
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      run: ./gradlew mingwX64MainBinaries
+      
