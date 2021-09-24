@@ -22,7 +22,7 @@ jobs:
         distribution: 'adopt'
         cache: gradle
     - name: Set up glfw
-      run: sudo apt install libglfw3-dev
+      run: sudo apt install libglfw3-dev libglew-dev
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
@@ -47,6 +47,7 @@ jobs:
       run: ./gradlew macosX64MainKlibrary linkDebugTestMacosX64
   
   build-windows:
+    if: false
     runs-on: windows-2019
 
     steps:
