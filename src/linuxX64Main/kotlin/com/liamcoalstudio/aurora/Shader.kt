@@ -1,14 +1,12 @@
 package com.liamcoalstudio.aurora
 
 import com.liamcoalstudio.aurora.enums.ShaderStage
-import com.liamcoalstudio.aurora.enums.ShaderStage.FRAGMENT
-import com.liamcoalstudio.aurora.enums.ShaderStage.VERTEX
 import kotlinx.cinterop.*
 
 actual class Shader internal actual constructor(
     actual val id: UInt,
     actual val stage: ShaderStage
-) {
+) : Resource() {
     actual constructor(stage: ShaderStage, source: String) : this(
         glCreateShader!!(stage.native),
         stage
@@ -16,11 +14,13 @@ actual class Shader internal actual constructor(
         pushSource(source)
     }
 
-    actual fun delete(): Boolean {
+    actual override fun delete() {
         glDeleteShader!!(id)
-        val p = nativeHeap.alloc<IntVar>()
-        glGetShaderiv!!(id, GL_DELETE_STATUS.convert(), p.ptr)
-        return p.value > 0
+    }
+
+    @Deprecated("Not bindable.", level = DeprecationLevel.HIDDEN)
+    actual override fun bind() {
+        throw IllegalStateException("cannot bind singular shader; only Programs can be bound")
     }
 
     actual fun pushSource(src: String): String? {
@@ -52,6 +52,6 @@ actual class Shader internal actual constructor(
         }
     }
 
-    actual val isValid: Boolean
+    actual override val isValid: Boolean
         get() = glIsShader!!(id) > 0u
 }
