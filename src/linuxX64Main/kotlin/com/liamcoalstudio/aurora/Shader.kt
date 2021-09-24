@@ -10,10 +10,7 @@ actual class Shader internal actual constructor(
     actual val stage: ShaderStage
 ) {
     actual constructor(stage: ShaderStage, source: String) : this(
-        glCreateShader!!(when(stage) {
-            VERTEX -> GL_VERTEX_SHADER
-            FRAGMENT -> GL_FRAGMENT_SHADER
-        }.convert()),
+        glCreateShader!!(stage.native),
         stage
     ) {
         pushSource(source)
