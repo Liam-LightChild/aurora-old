@@ -1,10 +1,10 @@
 package com.liamcoalstudio.aurora
 
-abstract class Resource<T> {
+abstract class Resource {
     abstract fun delete()
     abstract fun bind()
 
-    abstract var value: T
+    abstract val isValid: Boolean
 
     inline fun with(f: () -> Unit) {
         bind()

@@ -1,12 +1,14 @@
 package com.liamcoalstudio.aurora
 
 import com.liamcoalstudio.aurora.enums.ShaderStage
+import com.liamcoalstudio.aurora.enums.ShaderStage.FRAGMENT
+import com.liamcoalstudio.aurora.enums.ShaderStage.VERTEX
 import kotlinx.cinterop.*
 
 val ShaderStage.native
     get() = when(this) {
-        ShaderStage.VERTEX -> GL_VERTEX_SHADER
-        ShaderStage.FRAGMENT -> GL_FRAGMENT_SHADER
+        VERTEX -> GL_VERTEX_SHADER
+        FRAGMENT -> GL_FRAGMENT_SHADER
     }.convert<GLenum>()
 
 fun glfwError(): InternalErrorException {

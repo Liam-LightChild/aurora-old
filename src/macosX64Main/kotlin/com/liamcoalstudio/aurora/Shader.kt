@@ -10,16 +10,16 @@ import platform.posix.fclose
 import platform.posix.fopen
 import platform.posix.fputs
 
-actual class Shader internal actual constructor(actual val id: UInt, actual val stage: ShaderStage) {
+actual class Shader internal actual constructor(
+    actual val id: UInt,
+    actual val stage: ShaderStage
+) : Resource() {
     actual constructor(stage: ShaderStage, source: String) : this(glCreateShader(stage.native), stage) {
         pushSource(source)
     }
 
-    actual fun delete(): Boolean {
+    actual override fun delete() {
         glDeleteShader(id)
-        val status = nativeHeap.alloc<GLintVar>()
-        glGetShaderiv(id, GL_DELETE_STATUS, status.ptr)
-        return status.value > 0
     }
 
     actual fun pushSource(src: String): String? {
@@ -50,6 +50,11 @@ actual class Shader internal actual constructor(actual val id: UInt, actual val 
         return logStr
     }
 
-    actual val isValid: Boolean
+    actual override val isValid: Boolean
         get() = glIsShader(id) != 0.toUByte()
+
+    @Deprecated("Not bindable.", level = DeprecationLevel.HIDDEN)
+    actual override fun bind() {
+        throw IllegalStateException("cannot bind singular shader; only Programs can be bound")
+    }
 }
