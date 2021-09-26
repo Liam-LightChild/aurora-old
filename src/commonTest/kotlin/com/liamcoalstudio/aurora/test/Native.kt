@@ -1,4 +1,3 @@
 package com.liamcoalstudio.aurora.test
 
-class DrawTest {
-}
+expect fun withGlfw(f: () -> Unit)
