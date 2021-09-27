@@ -11,7 +11,7 @@ repositories {
 }
 
 kotlin {
-    jvm()
+//    jvm()
 
     // DESKTOP
 
@@ -58,9 +58,6 @@ kotlin {
             }
         }
 
-        val jvmMain by getting
-        val jvmTest by getting
-
         val linuxMain by getting
         val linuxTest by getting
         val windowsMain by getting
@@ -84,14 +81,14 @@ kotlin {
     }
 
     val publicationsFromMainHost =
-        listOf(linuxX64("linux"), macosX64("macos")).map { it.name } + "kotlinMultiplatform"
+        listOf(linuxX64("linux"), macosX64("macos"), mingwX64("windows")).map { it.name } + "kotlinMultiplatform"
 
     publishing {
         repositories {
             maven {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/LiamCoal/aurora")
-                
+
                 credentials {
                     username = project.findProperty("gpr.user")?.toString() ?: System.getenv("USERNAME")
                     password = project.findProperty("gpr.key")?.toString() ?: System.getenv("TOKEN")
@@ -100,12 +97,7 @@ kotlin {
         }
 
         publications {
-            matching { it.name in publicationsFromMainHost }.all {
-                val targetPublication = this@all
-                tasks.withType<AbstractPublishToMaven>()
-                    .matching { it.publication == targetPublication }
-                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
-            }
+
         }
     }
 }
