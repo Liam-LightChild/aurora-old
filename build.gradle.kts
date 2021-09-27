@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.5.31"
+    id("maven-publish")
 }
 
 group = "com.liamcoalstudio"
@@ -79,6 +80,32 @@ kotlin {
             linuxTest.dependsOn(this)
             windowsTest.dependsOn(this)
             macosTest.dependsOn(this)
+        }
+    }
+
+    val publicationsFromMainHost =
+        listOf(linuxX64("linux"), macosX64("macos")).map { it.name } + "kotlinMultiplatform"
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/LiamCoal/aurora")
+                
+                credentials {
+                    username = project.findProperty("gpr.user")?.toString() ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key")?.toString() ?: System.getenv("TOKEN")
+                }
+            }
+        }
+
+        publications {
+            matching { it.name in publicationsFromMainHost }.all {
+                val targetPublication = this@all
+                tasks.withType<AbstractPublishToMaven>()
+                    .matching { it.publication == targetPublication }
+                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+            }
         }
     }
 }
