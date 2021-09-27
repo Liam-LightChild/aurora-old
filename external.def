@@ -1,3 +1,8 @@
 headers.linux_x64               = GL/glew.h GLFW/glfw3.h GLFW/glfw3native.h
 libraryPaths.linux_x64          = /usr/local/lib /usr/lib64 /usr/lib/x86_64-linux-gnu
 linkerOpts.linux_x64            = -L/usr/local/lib -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -lGLX -l/usr/lib64/libGLEW.a -lglfw3
+
+headers.macos_x64               = GLFW/glfw3.h GLFW/glfw3native.h
+staticLibraries.macos_x64       = libglfw3.a
+libraryPaths.macos_x64          = /usr/local/lib
+linkerOpts.macos_x64            = -framework Cocoa -framework IOKit

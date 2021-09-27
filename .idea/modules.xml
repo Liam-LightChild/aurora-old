@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/aurora.commonTest.iml" filepath="$PROJECT_DIR$/.idea/modules/aurora.commonTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/aurora.linuxX64Test.iml" filepath="$PROJECT_DIR$/.idea/modules/aurora.linuxX64Test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/aurora.macosX64Test.iml" filepath="$PROJECT_DIR$/.idea/modules/aurora.macosX64Test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aurora.mingwX64Test.iml" filepath="$PROJECT_DIR$/.idea/modules/aurora.mingwX64Test.iml" />
     </modules>
   </component>
 </project>
