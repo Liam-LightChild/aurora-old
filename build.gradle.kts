@@ -44,28 +44,6 @@ kotlin {
         }
     }
 
-    // MOBILE
-
-    androidNativeArm64("android") {
-        compilations.getByName("main") {
-            val external by cinterops.creating {
-                defFile("external.def")
-                packageName("com.liamcoalstudio.aurora")
-                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
-            }
-        }
-    }
-
-    iosArm64("ios") {
-        compilations.getByName("main") {
-            val external by cinterops.creating {
-                defFile("external.def")
-                packageName("com.liamcoalstudio.aurora")
-                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
-            }
-        }
-    }
-
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -89,9 +67,6 @@ kotlin {
         val macosMain by getting
         val macosTest by getting
 
-        val androidMain by getting
-        val iosMain by getting
-
         val desktopMain by creating {
             dependsOn(commonMain)
             linuxMain.dependsOn(this)
@@ -104,12 +79,6 @@ kotlin {
             linuxTest.dependsOn(this)
             windowsTest.dependsOn(this)
             macosTest.dependsOn(this)
-        }
-
-        val mobileMain by creating {
-            dependsOn(commonMain)
-            androidMain.dependsOn(this)
-            iosMain.dependsOn(this)
         }
     }
 }
