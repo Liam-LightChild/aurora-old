@@ -10,57 +10,106 @@ repositories {
 }
 
 kotlin {
-    // TODO
-    // jvm {
-    //     withJava()
-    // }
+    jvm()
+
+    // DESKTOP
 
     linuxX64("linux") {
         compilations.getByName("main") {
             val external by cinterops.creating {
-                defFile("src/linuxMain/external.def")
+                defFile("external.def")
                 packageName("com.liamcoalstudio.aurora")
                 includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
             }
         }
     }
 
-    // FIXME unsupported
-    // macosX64("macos") {
-    //     compilations.getByName("main") {
-    //         val external by cinterops.creating {
-    //             defFile("src/macosX64Main/external.def")
-    //             packageName("com.liamcoalstudio.aurora")
-    //             includeDirs("/usr/local/include")
-    //         }
-    //     }
-    // }
+    macosX64("macos") {
+        compilations.getByName("main") {
+            val external by cinterops.creating {
+                defFile("external.def")
+                packageName("com.liamcoalstudio.aurora")
+                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+            }
+        }
+    }
 
-    // mingwX64("windows") // TODO
+    mingwX64("windows") {
+        compilations.getByName("main") {
+            val external by cinterops.creating {
+                defFile("external.def")
+                packageName("com.liamcoalstudio.aurora")
+                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+            }
+        }
+    }
+
+    // MOBILE
+
+    androidNativeArm64("android") {
+        compilations.getByName("main") {
+            val external by cinterops.creating {
+                defFile("external.def")
+                packageName("com.liamcoalstudio.aurora")
+                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+            }
+        }
+    }
+
+    iosArm64("ios") {
+        compilations.getByName("main") {
+            val external by cinterops.creating {
+                defFile("external.def")
+                packageName("com.liamcoalstudio.aurora")
+                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+            }
+        }
+    }
 
     sourceSets {
-        commonMain {
+        val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
             }
         }
 
-        commonTest {
+        val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
 
-        // val jvmMain by getting
-        // val jvmTest by getting
+        val jvmMain by getting
+        val jvmTest by getting
 
         val linuxMain by getting
         val linuxTest by getting
+        val windowsMain by getting
+        val windowsTest by getting
+        val macosMain by getting
+        val macosTest by getting
 
-        // val windowsMain by getting
-        // val windowsTest by getting
+        val androidMain by getting
+        val iosMain by getting
 
-        // val macosMain by getting
-        // val macosTest by getting
+        val desktopMain by creating {
+            dependsOn(commonMain)
+            linuxMain.dependsOn(this)
+            windowsMain.dependsOn(this)
+            macosMain.dependsOn(this)
+        }
+
+        val desktopTest by creating {
+            dependsOn(commonTest)
+            linuxTest.dependsOn(this)
+            windowsTest.dependsOn(this)
+            macosTest.dependsOn(this)
+        }
+
+        val mobileMain by creating {
+            dependsOn(commonMain)
+            androidMain.dependsOn(this)
+            iosMain.dependsOn(this)
+        }
     }
 }
