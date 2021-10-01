@@ -1,6 +1,6 @@
 package com.liamcoalstudio.aurora
 
-internal expect object Internal {
+expect object Internal {
     fun openWindow(
         name: String,
         fullscreen: Boolean,

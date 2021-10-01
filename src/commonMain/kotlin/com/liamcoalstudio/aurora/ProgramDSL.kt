@@ -2,17 +2,24 @@ package com.liamcoalstudio.aurora
 
 import kotlin.reflect.KProperty
 
-@DslMarker annotation class ProgramDSL
+@DslMarker @Deprecated("Replace with other annotations", ReplaceWith("Builder")) annotation class ProgramDSL
 
 value class Asset(private val contents: ByteArray) {
     val bytes get() = contents
     val string get() = contents.decodeToString()
 
-    @ProgramDSL infix fun <T> into(f: (String) -> T) = f(string)
-    @ProgramDSL infix fun <T> into(f: (ByteArray) -> T) = f(bytes)
+    @AuroraDSLMarker
+    @Suppress("DeprecatedCallableAddReplaceWith")
+    @Deprecated("Usage discouraged.")
+    infix fun <T> into(f: (String) -> T) = f(string)
+
+    @AuroraDSLMarker
+    @Suppress("DeprecatedCallableAddReplaceWith")
+    @Deprecated("Usage discouraged.")
+    infix fun <T> into(f: (ByteArray) -> T) = f(bytes)
 }
 
-@ProgramDSL
+@AuroraDSLMarker
 expect fun asset(path: String): Asset
 
 @Suppress("UNCHECKED_CAST")
@@ -20,28 +27,28 @@ sealed class Resource<T : Resource<T, R>, R : Any> {
     internal lateinit var name: String
     lateinit var value: R internal set
 
-    @ProgramDSL
+    @AuroraDSLMarker
     fun named(string: String) {
         name = string
     }
 
     class Shader : Resource<Shader, ShaderHandle>() {
-        @ProgramDSL lateinit var vertex: String
-        @ProgramDSL lateinit var fragment: String
+        @AuroraDSLMarker lateinit var vertex: String
+        @AuroraDSLMarker lateinit var fragment: String
 
-        @ProgramDSL
+        @AuroraDSLMarker
         fun vertex(string: String) {
             vertex = string
         }
 
-        @ProgramDSL fun vertex(asset: Asset) = vertex(asset.string)
+        @AuroraDSLMarker fun vertex(asset: Asset) = vertex(asset.string)
 
-        @ProgramDSL
+        @AuroraDSLMarker
         fun fragment(string: String) {
             fragment = string
         }
 
-        @ProgramDSL fun fragment(asset: Asset) = fragment(asset.string)
+        @AuroraDSLMarker fun fragment(asset: Asset) = fragment(asset.string)
     }
 }
 
@@ -51,7 +58,7 @@ class ProgramBuilder {
             handle.use()
         }
 
-        @ProgramDSL
+        @AuroraDSLMarker
         infix fun resources(f: ResourcesBuilder.() -> Unit) {
             ResourcesBuilder().also(f)
         }
@@ -60,16 +67,11 @@ class ProgramBuilder {
     class ResourcesBuilder {
         class New internal constructor()
 
-        @ProgramDSL
-        val resources = mutableMapOf<String, Resource<*, *>>()
+        @AuroraDSLMarker val resources = mutableMapOf<String, Resource<*, *>>()
+        @AuroraDSLMarker val shader = { Resource.Shader() }
+        @AuroraDSLMarker val new = New()
 
-        @ProgramDSL
-        val shader = { Resource.Shader() }
-
-        @ProgramDSL
-        val new = New()
-
-        @ProgramDSL
+        @AuroraDSLMarker
         infix fun New.shader(fn: Resource.Shader.() -> Unit) {
             val r = Resource.Shader().also(fn)
             val s = ShaderHandle.open()
@@ -88,18 +90,18 @@ class ProgramBuilder {
 
     private var windows = mutableMapOf<String, WindowHandle>()
 
-    @ProgramDSL
-    val window get() = SpecializedWindowBuilder(windows.values.single())
-
-    @ProgramDSL
+    @AuroraDSLMarker val window get() = SpecializedWindowBuilder(windows.values.single())
+    
+    @AuroraDSLMarker
+    @Deprecated("Use `asset` instead", ReplaceWith("asset", "com.liamcoalstudio.aurora.asset"))
     inline fun from(path: String) = asset(path)
 
-    @ProgramDSL
+    @AuroraDSLMarker
     fun window(name: String, f: WindowOpenBuilder.() -> Unit) {
-        windows[name] = Window.open(f)
+        windows[name] = openWindow(f)
     }
 
-    @ProgramDSL
+    @AuroraDSLMarker
     fun window(name: String): SpecializedWindowBuilder {
         return SpecializedWindowBuilder(windows[name]!!)
     }
@@ -109,5 +111,4 @@ class ProgramBuilder {
     }
 }
 
-@ProgramDSL
-expect fun program(f: ProgramBuilder.() -> Unit)
+@AuroraDSLMarker expect fun program(f: ProgramBuilder.() -> Unit)

@@ -1,12 +1,12 @@
 package com.liamcoalstudio.aurora.test
 
-import com.liamcoalstudio.aurora.Window
+import com.liamcoalstudio.aurora.openWindow
 import kotlin.test.Test
 
 class WindowTest {
     @Test
     fun test_windowed() = withGlfw {
-        val window = Window.open {
+        val window = openWindow {
             windowed(800, 600)
             title("Hello, World")
         }
@@ -16,7 +16,7 @@ class WindowTest {
 
     @Test
     fun test_fullscreen() = withGlfw {
-        val window = Window.open {
+        val window = openWindow {
             fullscreen()
             title("Hello, World")
         }
@@ -26,7 +26,7 @@ class WindowTest {
 
     @Test
     fun test_invisible() = withGlfw {
-        val window = Window.open {
+        val window = openWindow {
             invisible()
             title("Hello, World")
         }

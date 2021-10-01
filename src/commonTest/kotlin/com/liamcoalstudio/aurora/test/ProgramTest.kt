@@ -1,6 +1,5 @@
 package com.liamcoalstudio.aurora.test
 
-import com.liamcoalstudio.aurora.WindowConfig
 import com.liamcoalstudio.aurora.program
 import kotlin.test.Test
 
@@ -18,8 +17,7 @@ class ProgramTest {
         window("window.default") {
             windowed(800, 600)
             title("Default Window")
-
-            WindowConfig.WINDOW_VISIBLE setTo false
+            visible(false)
         }
     }
 
@@ -36,8 +34,7 @@ class ProgramTest {
         window("window.default") {
             fullscreen()
             title("Default Window")
-
-            WindowConfig.WINDOW_VISIBLE setTo false
+            visible(false)
         }
     }
 

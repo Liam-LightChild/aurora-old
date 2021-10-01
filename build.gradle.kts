@@ -13,6 +13,14 @@ repositories {
 kotlin {
 //    jvm()
 
+    metadata {
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+            }
+        }
+    }
+
     // DESKTOP
 
     linuxX64("linux") {
@@ -21,6 +29,11 @@ kotlin {
                 defFile("external.def")
                 packageName("com.liamcoalstudio.aurora")
                 includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+            }
+        }
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
         }
     }
@@ -33,6 +46,11 @@ kotlin {
                 includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
             }
         }
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+            }
+        }
     }
 
     mingwX64("windows") {
@@ -41,6 +59,11 @@ kotlin {
                 defFile("external.def")
                 packageName("com.liamcoalstudio.aurora")
                 includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+            }
+        }
+        compilations.all {
+            kotlinOptions {
+                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
         }
     }
@@ -96,8 +119,6 @@ kotlin {
             }
         }
 
-        publications {
-
-        }
+        publications {}
     }
 }

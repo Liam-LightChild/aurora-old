@@ -3,7 +3,7 @@ package com.liamcoalstudio.aurora
 import kotlinx.cinterop.pointed
 import kotlinx.cinterop.reinterpret
 
-internal actual object Internal {
+actual object Internal {
     actual fun openWindow(
         name: String,
         fullscreen: Boolean,
@@ -12,7 +12,7 @@ internal actual object Internal {
         share: WindowHandle?,
         config: Map<WindowConfig, Any>
     ): WindowHandle {
-        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.WINDOW_VISIBLE] == true) 1 else 0)
+        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.Visible] == true) 1 else 0)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2)
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)

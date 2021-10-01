@@ -2,9 +2,8 @@ package com.liamcoalstudio.aurora
 
 import kotlinx.cinterop.pointed
 import kotlinx.cinterop.reinterpret
-import kotlinx.cinterop.toByte
 
-internal actual object Internal {
+actual object Internal {
     actual fun openWindow(
         name: String,
         fullscreen: Boolean,
@@ -13,7 +12,7 @@ internal actual object Internal {
         share: WindowHandle?,
         config: Map<WindowConfig, Any>
     ): WindowHandle {
-        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.WINDOW_VISIBLE] == true) 1 else 0)
+        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.Visible] == true) 1 else 0)
 
         return WindowHandle(if(fullscreen) {
             val v = glfwGetVideoMode(glfwGetPrimaryMonitor())!!.pointed
