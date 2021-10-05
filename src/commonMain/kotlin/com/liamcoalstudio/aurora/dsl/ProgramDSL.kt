@@ -124,5 +124,5 @@ class ProgramBuilder {
     }
 }
 
-@AuroraDSLMarker
+@Deprecated("Use new \"game\" system")
 expect fun program(f: ProgramBuilder.() -> Unit)
