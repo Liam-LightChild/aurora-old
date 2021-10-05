@@ -1,7 +1,7 @@
 headers.linux_x64               = GL/glew.h GLFW/glfw3.h GLFW/glfw3native.h
 staticLibraries.linux_x64       = libGLEW.a libglfw3.a
 libraryPaths.linux_x64          = /usr/local/lib /usr/lib64 /usr/lib/x86_64-linux-gnu
-linkerOpts.linux_x64            = -L/usr/local/lib -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -lGLX
+linkerOpts.linux_x64            = -L/usr/local/lib -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -lGLX -lGL
 
 headers.macos_x64               = GLFW/glfw3.h GLFW/glfw3native.h
 staticLibraries.macos_x64       = libglfw3.a
