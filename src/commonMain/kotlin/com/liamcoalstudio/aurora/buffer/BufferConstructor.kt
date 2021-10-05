@@ -1,6 +1,5 @@
 package com.liamcoalstudio.aurora.buffer
 
-import com.liamcoalstudio.aurora.dsl.AuroraDSLMarker
 import com.liamcoalstudio.aurora.buffer.Buffer.Companion.build as buildBuffer
 
 class BufferConstructor<T : Buffered<T>>(f: ConstructorBuilder<T>.() -> Unit) {
@@ -9,32 +8,26 @@ class BufferConstructor<T : Buffered<T>>(f: ConstructorBuilder<T>.() -> Unit) {
     class ConstructorBuilder<T> {
         val operations = mutableListOf<(T, Buffer) -> Unit>()
 
-        @AuroraDSLMarker
         inline fun from(crossinline p: T.() -> Float) {
             operations.add { t: T, buffer: Buffer -> buffer.writeFloat(t.p()) }
         }
 
-        @AuroraDSLMarker
         inline fun from(crossinline p: T.() -> Int) {
             operations.add { t: T, buffer: Buffer -> buffer.writeInt(t.p()) }
         }
 
-        @AuroraDSLMarker
         inline fun from(crossinline p: T.() -> Byte) {
             operations.add { t: T, buffer: Buffer -> buffer.writeByte(t.p()) }
         }
 
-        @AuroraDSLMarker
         inline fun constant(f: Float) {
             operations.add { _: T, buffer: Buffer -> buffer.writeFloat(f) }
         }
 
-        @AuroraDSLMarker
         inline fun constant(i: Int) {
             operations.add { _: T, buffer: Buffer -> buffer.writeInt(i) }
         }
 
-        @AuroraDSLMarker
         inline fun constant(b: Byte) {
             operations.add { _: T, buffer: Buffer -> buffer.writeByte(b) }
         }

@@ -18,7 +18,6 @@ actual fun asset(path: String): Asset {
     return Asset(bytes)
 }
 
-@AuroraDSLMarker
 actual fun program(f: ProgramBuilder.() -> Unit) {
     glfwInit()
     ProgramBuilder().also(f).run()

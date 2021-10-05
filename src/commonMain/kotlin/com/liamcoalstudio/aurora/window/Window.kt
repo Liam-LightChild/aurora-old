@@ -1,19 +1,8 @@
-@file:OptIn(ExperimentalContracts::class)
 package com.liamcoalstudio.aurora.window
 
-import com.liamcoalstudio.aurora.dsl.AuroraDSLMarker
 import com.liamcoalstudio.aurora.Internal
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
-@AuroraDSLMarker
-inline fun openWindow(crossinline f: WindowOpenBuilder.() -> Unit): WindowHandle {
-    contract {
-        callsInPlace(f, InvocationKind.EXACTLY_ONCE)
-        returnsNotNull()
-    }
-
+fun openWindow(f: WindowOpenBuilder.() -> Unit): WindowHandle {
     val b = WindowOpenBuilder().also(f)
 
     val isFullscreen: Boolean
@@ -63,40 +52,32 @@ open class WindowOpenBuilder {
         private set
     val config = mutableMapOf<WindowConfig, Any>()
 
-    @AuroraDSLMarker
     fun title(string: String) {
         title = string
     }
 
-    @AuroraDSLMarker
     fun span(windowSpan: WindowSpan) {
         this.span = windowSpan
     }
 
-    @AuroraDSLMarker
     fun share(windowHandle: WindowHandle) {
         shareWindow = windowHandle
     }
 
-    @AuroraDSLMarker
     inline fun windowed(width: Int, height: Int) = span(WindowSpan.Windowed(width, height))
 
-    @AuroraDSLMarker
     inline fun fullscreen() = span(WindowSpan.Fullscreen)
 
     /**
      * Does not affect configuration option [WindowConfig.Visible] directly.
      * Use [visible] for that.
      */
-    @AuroraDSLMarker
     inline fun invisible() = span(WindowSpan.Invisible)
 
-    @AuroraDSLMarker
     inline fun visible(value: Boolean) {
         config[WindowConfig.Visible] = value
     }
 
-    @AuroraDSLMarker
     @Suppress("DeprecatedCallableAddReplaceWith")
     @Deprecated("Use individual configuration options.")
     infix fun WindowConfig.setTo(value: Any) {
