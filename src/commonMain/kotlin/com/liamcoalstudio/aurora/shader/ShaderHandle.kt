@@ -1,4 +1,4 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.shader
 
 expect value class ShaderHandle(val handle: UInt) {
     companion object {

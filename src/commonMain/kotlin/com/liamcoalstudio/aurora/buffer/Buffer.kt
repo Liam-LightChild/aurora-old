@@ -1,4 +1,7 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.buffer
+
+import com.liamcoalstudio.aurora.dsl.AuroraDSLMarker
+import com.liamcoalstudio.aurora.toByteArray
 
 class Buffer private constructor() {
     private val bytes: MutableList<Byte> = mutableListOf()
@@ -6,14 +9,22 @@ class Buffer private constructor() {
     val byteArray get() = bytes.toByteArray()
 
     class BufferBuilder internal constructor(val buffer: Buffer) {
-        @AuroraDSLMarker inline fun byte(b: Byte) = buffer.writeByte(b)
-        @AuroraDSLMarker inline fun short(s: Short) = buffer.writeShort(s)
-        @AuroraDSLMarker inline fun int(i: Int) = buffer.writeInt(i)
-        @AuroraDSLMarker inline fun float(f: Float) = buffer.writeFloat(f)
-        @AuroraDSLMarker inline fun bytes(a: ByteArray) = buffer.write(a)
-        @AuroraDSLMarker inline fun shorts(a: ShortArray) = a.forEach(buffer::writeShort)
-        @AuroraDSLMarker inline fun ints(a: IntArray) = a.forEach(buffer::writeInt)
-        @AuroraDSLMarker inline fun floats(a: FloatArray) = a.forEach(buffer::writeFloat)
+        @AuroraDSLMarker
+        inline fun byte(b: Byte) = buffer.writeByte(b)
+        @AuroraDSLMarker
+        inline fun short(s: Short) = buffer.writeShort(s)
+        @AuroraDSLMarker
+        inline fun int(i: Int) = buffer.writeInt(i)
+        @AuroraDSLMarker
+        inline fun float(f: Float) = buffer.writeFloat(f)
+        @AuroraDSLMarker
+        inline fun bytes(a: ByteArray) = buffer.write(a)
+        @AuroraDSLMarker
+        inline fun shorts(a: ShortArray) = a.forEach(buffer::writeShort)
+        @AuroraDSLMarker
+        inline fun ints(a: IntArray) = a.forEach(buffer::writeInt)
+        @AuroraDSLMarker
+        inline fun floats(a: FloatArray) = a.forEach(buffer::writeFloat)
     }
 
     companion object {

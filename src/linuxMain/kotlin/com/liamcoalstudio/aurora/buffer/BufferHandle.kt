@@ -1,15 +1,18 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.buffer
 
-import com.liamcoalstudio.aurora.BufferType.*
-import com.liamcoalstudio.aurora.BufferUsage.*
+import com.liamcoalstudio.aurora.*
+import com.liamcoalstudio.aurora.buffer.BufferType.*
+import com.liamcoalstudio.aurora.buffer.BufferUsage.*
 import kotlinx.cinterop.*
 
-internal val BufferType.native: GLenum get() = when(this) {
+internal val BufferType.native: GLenum
+    get() = when(this) {
     VertexBuffer -> GL_ARRAY_BUFFER
     VertexIndexerBuffer -> GL_ELEMENT_ARRAY_BUFFER
 }.convert()
 
-internal val BufferUsage.native: GLenum get() = when(this) {
+internal val BufferUsage.native: GLenum
+    get() = when(this) {
     Draw -> GL_DYNAMIC_DRAW
     DrawStream -> GL_STREAM_DRAW
     DrawStatic -> GL_STATIC_DRAW
@@ -28,7 +31,8 @@ actual class BufferHandle private constructor(private val handle: UInt, actual v
             glGenBuffers!!(1, id.ptr)
             val i = id.value
             nativeHeap.free(id)
-            return BufferHandle(i, type, usage)
+
+            return com.liamcoalstudio.aurora.buffer.BufferHandle(i, type, usage)
         }
     }
 

@@ -1,7 +1,6 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.buffer
 
 import kotlinx.cinterop.*
-import kotlinx.cinterop.nativeHeap.free
 import platform.OpenGL3.*
 import platform.OpenGLCommon.GLenum
 
@@ -36,7 +35,7 @@ actual class BufferHandle private constructor(
 
             try {
                 glGenBuffers(1, id.ptr)
-                return BufferHandle(id.value, type, usage)
+                return com.liamcoalstudio.aurora.buffer.BufferHandle(id.value, type, usage)
             } finally {
                 nativeHeap.free(id)
             }

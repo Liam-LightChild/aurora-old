@@ -1,6 +1,6 @@
 package com.liamcoalstudio.aurora.test
 
-import com.liamcoalstudio.aurora.program
+import com.liamcoalstudio.aurora.dsl.program
 import kotlin.test.Test
 
 class ProgramTest {

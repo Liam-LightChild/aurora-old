@@ -1,4 +1,4 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.dsl
 
 @DslMarker
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)

@@ -1,4 +1,4 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.window
 
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.reinterpret

@@ -1,5 +1,7 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.dsl
 
+import com.liamcoalstudio.aurora.glfwInit
+import com.liamcoalstudio.aurora.glfwTerminate
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.convert
 import kotlinx.cinterop.usePinned

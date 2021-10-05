@@ -1,5 +1,7 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.window
 
+import com.liamcoalstudio.aurora.glfwDestroyWindow
+import com.liamcoalstudio.aurora.glfwMakeContextCurrent
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.reinterpret
 

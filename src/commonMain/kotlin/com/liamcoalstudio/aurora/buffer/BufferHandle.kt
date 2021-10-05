@@ -1,4 +1,4 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.buffer
 
 enum class BufferUsage {
     Draw,

@@ -1,5 +1,10 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.dsl
 
+import com.liamcoalstudio.aurora.shader.ShaderHandle
+import com.liamcoalstudio.aurora.shader.ShaderType
+import com.liamcoalstudio.aurora.window.WindowHandle
+import com.liamcoalstudio.aurora.window.WindowOpenBuilder
+import com.liamcoalstudio.aurora.window.openWindow
 import kotlin.reflect.KProperty
 
 @DslMarker @Deprecated("Replace with other annotations", ReplaceWith("Builder")) annotation class ProgramDSL
@@ -33,22 +38,26 @@ sealed class Resource<T : Resource<T, R>, R : Any> {
     }
 
     class Shader : Resource<Shader, ShaderHandle>() {
-        @AuroraDSLMarker lateinit var vertex: String
-        @AuroraDSLMarker lateinit var fragment: String
+        @AuroraDSLMarker
+        lateinit var vertex: String
+        @AuroraDSLMarker
+        lateinit var fragment: String
 
         @AuroraDSLMarker
         fun vertex(string: String) {
             vertex = string
         }
 
-        @AuroraDSLMarker fun vertex(asset: Asset) = vertex(asset.string)
+        @AuroraDSLMarker
+        fun vertex(asset: Asset) = vertex(asset.string)
 
         @AuroraDSLMarker
         fun fragment(string: String) {
             fragment = string
         }
 
-        @AuroraDSLMarker fun fragment(asset: Asset) = fragment(asset.string)
+        @AuroraDSLMarker
+        fun fragment(asset: Asset) = fragment(asset.string)
     }
 }
 
@@ -67,9 +76,12 @@ class ProgramBuilder {
     class ResourcesBuilder {
         class New internal constructor()
 
-        @AuroraDSLMarker val resources = mutableMapOf<String, Resource<*, *>>()
-        @AuroraDSLMarker val shader = { Resource.Shader() }
-        @AuroraDSLMarker val new = New()
+        @AuroraDSLMarker
+        val resources = mutableMapOf<String, Resource<*, *>>()
+        @AuroraDSLMarker
+        val shader = { Resource.Shader() }
+        @AuroraDSLMarker
+        val new = New()
 
         @AuroraDSLMarker
         infix fun New.shader(fn: Resource.Shader.() -> Unit) {
@@ -90,10 +102,11 @@ class ProgramBuilder {
 
     private var windows = mutableMapOf<String, WindowHandle>()
 
-    @AuroraDSLMarker val window get() = SpecializedWindowBuilder(windows.values.single())
+    @AuroraDSLMarker
+    val window get() = SpecializedWindowBuilder(windows.values.single())
     
     @AuroraDSLMarker
-    @Deprecated("Use `asset` instead", ReplaceWith("asset", "com.liamcoalstudio.aurora.asset"))
+    @Deprecated("Use `asset` instead", ReplaceWith("asset", "com.liamcoalstudio.aurora.dsl.asset"))
     inline fun from(path: String) = asset(path)
 
     @AuroraDSLMarker
@@ -111,4 +124,5 @@ class ProgramBuilder {
     }
 }
 
-@AuroraDSLMarker expect fun program(f: ProgramBuilder.() -> Unit)
+@AuroraDSLMarker
+expect fun program(f: ProgramBuilder.() -> Unit)

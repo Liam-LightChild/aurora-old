@@ -1,4 +1,4 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.dsl
 
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.convert

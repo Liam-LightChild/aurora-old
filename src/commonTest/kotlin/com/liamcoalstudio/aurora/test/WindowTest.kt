@@ -1,6 +1,6 @@
 package com.liamcoalstudio.aurora.test
 
-import com.liamcoalstudio.aurora.openWindow
+import com.liamcoalstudio.aurora.window.openWindow
 import kotlin.test.Test
 
 class WindowTest {

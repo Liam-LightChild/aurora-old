@@ -1,6 +1,8 @@
 @file:OptIn(ExperimentalContracts::class)
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.window
 
+import com.liamcoalstudio.aurora.dsl.AuroraDSLMarker
+import com.liamcoalstudio.aurora.Internal
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -50,7 +52,7 @@ inline fun openWindow(crossinline f: WindowOpenBuilder.() -> Unit): WindowHandle
 
 @Deprecated("To be removed", level = DeprecationLevel.ERROR)
 object Window {
-    @Deprecated("Use `openWindow`", ReplaceWith("openWindow(f)", "com.liamcoalstudio.aurora.openWindow"))
+    @Deprecated("Use `openWindow`", ReplaceWith("openWindow(f)", "com.liamcoalstudio.aurora.window.openWindow"))
     fun open(f: WindowOpenBuilder.() -> Unit): WindowHandle = openWindow(f)
 }
 

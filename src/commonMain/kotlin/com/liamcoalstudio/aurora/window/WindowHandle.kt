@@ -1,4 +1,4 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.window
 
 expect class WindowHandle {
     fun use()

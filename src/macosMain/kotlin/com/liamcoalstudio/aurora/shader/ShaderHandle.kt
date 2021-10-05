@@ -1,16 +1,8 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.shader
 
 import kotlinx.cinterop.*
-import platform.OpenGL3.*
-import platform.OpenGLCommon.*
-import platform.posix.fflush
-import platform.posix.fputs
-import platform.posix.stderr
-
-actual enum class ShaderType(val native: GLenum) {
-    VERTEX(GL_VERTEX_SHADER.convert()),
-    FRAGMENT(GL_FRAGMENT_SHADER.convert())
-}
+import kotlinx.cinterop.nativeHeap.alloc
+import kotlinx.cinterop.nativeHeap.free
 
 actual value class ShaderHandle actual constructor(actual val handle: UInt) {
     actual companion object {
@@ -96,4 +88,9 @@ actual value class ShaderHandle actual constructor(actual val handle: UInt) {
     actual fun delete() {
         glDeleteProgram(handle)
     }
+}
+
+actual enum class ShaderType(val native: GLenum) {
+    VERTEX(GL_VERTEX_SHADER.convert()),
+    FRAGMENT(GL_FRAGMENT_SHADER.convert())
 }

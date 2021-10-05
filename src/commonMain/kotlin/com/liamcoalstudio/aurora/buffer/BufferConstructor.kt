@@ -1,6 +1,7 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.buffer
 
-import com.liamcoalstudio.aurora.Buffer.Companion.build as buildBuffer
+import com.liamcoalstudio.aurora.dsl.AuroraDSLMarker
+import com.liamcoalstudio.aurora.buffer.Buffer.Companion.build as buildBuffer
 
 class BufferConstructor<T : Buffered<T>>(f: ConstructorBuilder<T>.() -> Unit) {
     val operations = ConstructorBuilder<T>().also(f).operations

@@ -1,4 +1,4 @@
-package com.liamcoalstudio.aurora
+package com.liamcoalstudio.aurora.window
 
 sealed class WindowSpan {
     class Windowed(val width: Int, val height: Int) : WindowSpan() {
