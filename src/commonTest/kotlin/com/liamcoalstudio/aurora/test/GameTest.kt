@@ -5,13 +5,33 @@ import com.liamcoalstudio.aurora.Vector3f
 import com.liamcoalstudio.aurora.draw.DrawCollection
 import com.liamcoalstudio.aurora.game.Game
 import com.liamcoalstudio.aurora.game.run
+import com.liamcoalstudio.aurora.input.Key
+import com.liamcoalstudio.aurora.input.setupKeyHandlers
 import com.liamcoalstudio.aurora.shader.ShaderInputType
 import com.liamcoalstudio.aurora.window.WindowHandle
 import com.liamcoalstudio.aurora.window.WindowOpenBuilder
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 class GameTest {
+    abstract class FailableGame : Game() {
+        private var fail: Boolean = false
+
+        override fun init(window: WindowHandle) {
+            super.init(window)
+            window.setupKeyHandlers {
+                on(Key.F) { fail = true }
+                on(Key.G) { window.shouldClose = true }
+            }
+        }
+
+        override fun update(window: WindowHandle) {
+            super.update(window)
+            if(fail) fail("Failed at user request")
+        }
+    }
+
     class BasicGame : Game() {
         override fun WindowOpenBuilder.window() {
             windowed(800, 600)
@@ -64,7 +84,7 @@ class GameTest {
         val vPosition: Vector2f
     )
 
-    class DrawGame : Game() {
+    class DrawGame : FailableGame() {
         override fun WindowOpenBuilder.window() {
             windowed(800, 600)
             title("Draw Game")
@@ -103,6 +123,7 @@ class GameTest {
                 DrawGameVertex(Vector2f(0f, 1f)),
                 DrawGameVertex(Vector2f(1f, 0f))
             )
+            super.init(window)
         }
 
         override fun draw(window: WindowHandle) {
@@ -123,7 +144,7 @@ class GameTest {
         val vColor: Vector3f
     )
 
-    class ColorfulGame : Game() {
+    class ColorfulGame : FailableGame() {
         override fun WindowOpenBuilder.window() {
             windowed(800, 600)
             title("Colorful Game")
@@ -169,6 +190,7 @@ class GameTest {
                 ColorfulGameVertex(Vector2f(0f, 1f), Vector3f(0f, 1f, 0f)),
                 ColorfulGameVertex(Vector2f(1f, 0f), Vector3f(0f, 0f, 1f))
             )
+            super.init(window)
         }
 
         override fun draw(window: WindowHandle) {
