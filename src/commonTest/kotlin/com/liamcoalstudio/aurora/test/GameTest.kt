@@ -97,23 +97,16 @@ class GameTest {
 
         override fun init(window: WindowHandle) {
             build(shader)
-//            draw = shader.get().constructDrawCollection(
-//                DrawGameVertex(Vector2f(0f, 0f)),
-//                DrawGameVertex(Vector2f(0f, 1f)),
-//                DrawGameVertex(Vector2f(1f, 0f))
-//            )
+            draw = shader.get().constructDrawCollection(
+                DrawGameVertex(Vector2f(0f, 0f)),
+                DrawGameVertex(Vector2f(0f, 1f)),
+                DrawGameVertex(Vector2f(1f, 0f))
+            )
         }
 
         override fun draw(window: WindowHandle) {
             shader.get().use()
-            shader.get().constructDrawCollection(
-                DrawGameVertex(Vector2f(0f, 0f)),
-                DrawGameVertex(Vector2f(0f, 1f)),
-                DrawGameVertex(Vector2f(1f, 0f))
-            ).run {
-                draw()
-                delete()
-            }
+            draw?.draw()
         }
 
         override fun quit(window: WindowHandle) {
