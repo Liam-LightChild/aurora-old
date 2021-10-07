@@ -52,7 +52,6 @@ actual class BufferHandle private constructor(private val handle: UInt, actual v
     }
 
     internal actual fun push(data: ByteArray) {
-        println("${data.contentToString()} into $handle (${data.size}b)")
         data.usePinned { pinned ->
             glNamedBufferData?.invoke(handle, data.size.convert(), pinned.addressOf(0), usage.native)
                 ?: run {
