@@ -10,8 +10,8 @@ internal actual fun startFrame(windowHandle: WindowHandle) {
 }
 
 internal actual fun endFrame(windowHandle: WindowHandle) {
-    glfwPollEvents()
     glfwSwapBuffers(windowHandle.handle.reinterpret())
+    glfwPollEvents()
 }
 
 internal actual fun startGame() {

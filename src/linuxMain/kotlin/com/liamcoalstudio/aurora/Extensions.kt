@@ -3,13 +3,9 @@ package com.liamcoalstudio.aurora
 import kotlinx.cinterop.*
 
 actual fun Float.toByteArray(): ByteArray {
-    this.usePinned {
-        val p = nativeHeap.alloc<IntVar>()
-        return try {
-            it.copy(p.ptr)
-            p.value.toByteArray()
-        } finally {
-            nativeHeap.free(p)
-        }
-    }
+    val bytes = nativeHeap.alloc<FloatVar>()
+    bytes.value = this
+    val b = bytes.ptr.readBytes(sizeOf<FloatVar>().convert())
+    nativeHeap.free(bytes)
+    return b
 }

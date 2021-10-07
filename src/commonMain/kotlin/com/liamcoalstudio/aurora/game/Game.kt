@@ -1,21 +1,25 @@
 package com.liamcoalstudio.aurora.game
 
-import com.liamcoalstudio.aurora.dsl.Resource
 import com.liamcoalstudio.aurora.shader.ShaderHandle
+import com.liamcoalstudio.aurora.shader.ShaderInput
+import com.liamcoalstudio.aurora.shader.ShaderInputType
 import com.liamcoalstudio.aurora.shader.ShaderType
 import com.liamcoalstudio.aurora.window.WindowHandle
 import com.liamcoalstudio.aurora.window.WindowOpenBuilder
 import com.liamcoalstudio.aurora.window.openWindow
 import kotlin.reflect.KProperty
+import kotlin.reflect.KProperty1
 
-class CreatingShader internal constructor(private val game: Game) {
+class CreatingShader<T> internal constructor(private val game: Game) {
     @Deprecated("not recommended")
-    constructor(game: Game, f: CreatingShader.() -> Unit) : this(game) {
+    constructor(game: Game, f: CreatingShader<T>.() -> Unit) : this(game) {
         f()
     }
 
     private lateinit var vertex: String
     private lateinit var fragment: String
+
+    val inputs = mutableListOf<ShaderInput<*, T>>()
 
     fun vertex(s: String) { vertex = s }
     fun fragment(s: String) { fragment = s }
@@ -23,7 +27,11 @@ class CreatingShader internal constructor(private val game: Game) {
     fun vertex(s: () -> String) { vertex = s() }
     fun fragment(s: () -> String) { fragment = s() }
 
-    internal fun build() = ShaderRef(vertex, fragment)
+    fun <V> input(p: KProperty1<T, V>, type: ShaderInputType<V>) {
+        inputs.add(ShaderInput(p.name, type, p::get))
+    }
+
+    internal fun build() = ShaderRef(vertex, fragment, inputs)
 }
 
 class CreatingWindow internal constructor(private val f: WindowOpenBuilder.() -> Unit) {
@@ -39,26 +47,25 @@ interface Delegatable<T> {
 }
 
 abstract class Game {
-
     init {
         startGame()
     }
 
-    abstract val window: WindowHandle
+    abstract fun WindowOpenBuilder.window()
 
     internal val resources = mutableMapOf<String, Reference<*>>()
 
     internal inline fun <T : Reference<*>> add(name: String, a: T) = a.also { resources[name] = a }
 
-    open fun init() {}
-    open fun draw() {}
-    open fun update() {}
-    open fun quit() {}
+    open fun init(window: WindowHandle) {}
+    open fun draw(window: WindowHandle) {}
+    open fun update(window: WindowHandle) {}
+    open fun quit(window: WindowHandle) {}
 
-    private val shaderCreators = mutableMapOf<String, CreatingShader>()
+    private val shaderCreators = mutableMapOf<String, CreatingShader<*>>()
 
-    fun shader(f: CreatingShader.() -> Unit) = object : Delegatable<ShaderRef> {
-        val value = CreatingShader(this@Game).also(f).build()
+    fun <T> shader(f: CreatingShader<T>.() -> Unit) = object : Delegatable<ShaderRef<T>> {
+        val value = CreatingShader<T>(this@Game).also(f).build()
 
         override fun getValue(t: Any?, p: KProperty<*>) = value
     }
@@ -69,10 +76,11 @@ abstract class Game {
         override fun getValue(t: Any?, p: KProperty<*>) = value
     }
 
-    inline fun build(ref: ShaderRef) {
-        ref.fulfill(ShaderHandle.open().also {
+    inline fun <T> build(ref: ShaderRef<T>) {
+        ref.fulfill(ShaderHandle.open<T>().also {
             it.addShader(ShaderType.VERTEX, ref.vertexSource)
             it.addShader(ShaderType.FRAGMENT, ref.fragmentSource)
+            ref.inputs.forEach(it::addInput)
             it.finish()
         })
     }
@@ -84,18 +92,20 @@ internal expect fun startFrame(windowHandle: WindowHandle)
 internal expect fun endFrame(windowHandle: WindowHandle)
 
 fun Game.run() {
+    val window = openWindow { window() }
+
     try {
         window.use()
-        init()
+        init(window)
 
         while(!window.shouldClose) {
             startFrame(window)
-            draw()
+            draw(window)
+            update(window)
             endFrame(window)
-            update()
         }
     } finally {
-        quit()
+        quit(window)
         window.close()
         endGame()
     }

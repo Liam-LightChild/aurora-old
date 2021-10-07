@@ -24,7 +24,7 @@ internal val BufferUsage.native: GLenum
     CopyStatic -> GL_STATIC_COPY
 }.convert()
 
-actual class BufferHandle private constructor(private val handle: UInt, actual val type: BufferType, actual val usage: BufferUsage) {
+actual class BufferHandle private constructor(private val handle: UInt, actual val type: BufferType, actual val usage: BufferUsage) : Resource() {
     actual companion object {
         actual fun new(type: BufferType, usage: BufferUsage): BufferHandle {
             val id = nativeHeap.alloc<UIntVar>()
@@ -32,11 +32,15 @@ actual class BufferHandle private constructor(private val handle: UInt, actual v
             val i = id.value
             nativeHeap.free(id)
 
-            return com.liamcoalstudio.aurora.buffer.BufferHandle(i, type, usage)
+            return BufferHandle(i, type, usage).also { it.bind(type) }
         }
     }
 
-    actual fun delete() {
+    actual override fun resourceUse() {
+        glBindBuffer!!(type.native, handle)
+    }
+
+    actual override fun resourceDelete() {
         val id = nativeHeap.alloc<UIntVar>()
         id.value = handle
         glDeleteBuffers!!(1, id.ptr)
@@ -48,6 +52,7 @@ actual class BufferHandle private constructor(private val handle: UInt, actual v
     }
 
     internal actual fun push(data: ByteArray) {
+        println("${data.contentToString()} into $handle (${data.size}b)")
         data.usePinned { pinned ->
             glNamedBufferData?.invoke(handle, data.size.convert(), pinned.addressOf(0), usage.native)
                 ?: run {

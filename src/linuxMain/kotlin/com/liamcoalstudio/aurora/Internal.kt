@@ -13,7 +13,12 @@ actual object Internal {
         share: WindowHandle?,
         config: Map<WindowConfig, Any>
     ): WindowHandle {
-        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.Visible] == true) 1 else 0)
+        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.Visible] == false) 0 else 1)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5)
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE)
 
         return (WindowHandle(
             if (fullscreen) {
