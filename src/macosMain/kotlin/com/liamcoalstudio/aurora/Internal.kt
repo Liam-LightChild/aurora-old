@@ -14,13 +14,13 @@ actual object Internal {
         share: WindowHandle?,
         config: Map<WindowConfig, Any>
     ): WindowHandle {
-        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.Visible] == true) 1 else 0)
+        glfwWindowHint(GLFW_VISIBLE, if(config[WindowConfig.Visible] == false) 0 else 1)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2)
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
 
-        return com.liamcoalstudio.aurora.window.WindowHandle(
+        return WindowHandle(
             if (fullscreen) {
                 val v = glfwGetVideoMode(glfwGetPrimaryMonitor())!!.pointed
                 glfwCreateWindow(v.width, v.height, name, glfwGetPrimaryMonitor(), share?.handle?.reinterpret())

@@ -1,5 +1,6 @@
 package com.liamcoalstudio.aurora.buffer
 
+import com.liamcoalstudio.aurora.Resource
 import kotlinx.cinterop.*
 import platform.OpenGL3.*
 import platform.OpenGLCommon.GLenum
@@ -25,7 +26,7 @@ actual class BufferHandle private constructor(
     private val handle: UInt,
     actual val type: BufferType,
     actual val usage: BufferUsage
-) {
+) : Resource() {
     actual companion object {
         actual fun new(
             type: BufferType,
@@ -42,7 +43,7 @@ actual class BufferHandle private constructor(
         }
     }
 
-    actual fun delete() {
+    actual override fun resourceDelete() {
         val id = nativeHeap.alloc<UIntVar>()
 
         try {
@@ -63,5 +64,9 @@ actual class BufferHandle private constructor(
         data.usePinned { pinned ->
             glBufferData(type.native, data.size.convert(), pinned.addressOf(0), usage.native)
         }
+    }
+
+    actual override fun resourceUse() {
+        bind(type)
     }
 }
