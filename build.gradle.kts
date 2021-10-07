@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.liamcoalstudio"
-version = "2022.1-2021.09.26.1"
+version = "2022.1-2021.10.07.1"
 
 repositories {
     mavenCentral()
