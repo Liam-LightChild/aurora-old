@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.5.31"
     id("maven-publish")
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 group = "com.liamcoalstudio"
@@ -80,6 +81,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.0")
             }
         }
 
