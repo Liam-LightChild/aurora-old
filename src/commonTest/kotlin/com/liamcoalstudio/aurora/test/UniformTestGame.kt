@@ -9,7 +9,6 @@ import com.liamcoalstudio.aurora.shader.ShaderInputType
 import com.liamcoalstudio.aurora.window.WindowHandle
 import com.liamcoalstudio.aurora.window.WindowOpenBuilder
 import kotlin.math.PI
-import kotlin.math.sign
 import kotlin.math.sin
 import kotlin.test.Test
 

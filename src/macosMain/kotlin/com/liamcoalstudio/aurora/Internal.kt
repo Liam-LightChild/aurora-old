@@ -21,12 +21,12 @@ actual object Internal {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
 
         return WindowHandle(
-            if (fullscreen) {
+            (if (fullscreen) {
                 val v = glfwGetVideoMode(glfwGetPrimaryMonitor())!!.pointed
                 glfwCreateWindow(v.width, v.height, name, glfwGetPrimaryMonitor(), share?.handle?.reinterpret())
             } else {
                 glfwCreateWindow(width!!, height!!, name, null, share?.handle?.reinterpret())
-            }!!.reinterpret()
+            }).reinterpret()
         )
     }
 }
