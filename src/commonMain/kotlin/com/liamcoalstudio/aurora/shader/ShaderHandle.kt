@@ -83,4 +83,5 @@ expect class ShaderHandle<T> internal constructor(handle: KUInt) : Resource {
     override fun resourceUse()
     override fun resourceDelete()
     fun constructDrawCollection(vararg values: T): DrawCollection<T>
+    fun uniform(name: String): Uniform
 }

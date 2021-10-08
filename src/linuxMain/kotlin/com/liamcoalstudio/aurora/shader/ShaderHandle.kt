@@ -157,6 +157,16 @@ actual class ShaderHandle<T> internal actual constructor(internal val handle: UI
 
         return c
     }
+
+    actual fun uniform(name: String): Uniform {
+        val ptr = nativeHeap.allocArrayOf(name.cstr.getBytes())
+
+        try {
+            return Uniform(this, glGetUniformLocation!!(handle, ptr))
+        } finally {
+            nativeHeap.free(ptr)
+        }
+    }
 }
 
 actual enum class ShaderType(val native: GLenum) {
