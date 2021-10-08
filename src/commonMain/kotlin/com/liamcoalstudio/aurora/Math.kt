@@ -1,6 +1,5 @@
 package com.liamcoalstudio.aurora
 
-import kotlinx.cinterop.convert
 import kotlinx.serialization.Serializable
 
 @Serializable data class Vector2<T>(val x: T, val y: T)
@@ -58,29 +57,29 @@ object Matrix {
     }
 }
 
-inline fun <reified T : Number> Matrix2x2<T>.toMatrix3x3(): Matrix3x3<T> {
+inline fun Matrix2x2<Float>.toMatrix3x3(): Matrix3x3<Float> {
     return Matrix3x3(
-        x = Vector3(x.x,         x.y,         0.convert()),
-        y = Vector3(y.x,         y.y,         0.convert()),
-        z = Vector3(0.convert(), 0.convert(), 1.convert())
+        x = Vector3(x = x.x, y = x.y, z = 0f),
+        y = Vector3(x = y.x, y = y.y, z = 0f),
+        z = Vector3(x = 0f,  y = 0f,  z = 1f)
     )
 }
 
-inline fun <reified T : Number> Matrix2x2<T>.toMatrix4x4(): Matrix4x4<T> {
+inline fun Matrix2x2<Float>.toMatrix4x4(): Matrix4x4<Float> {
     return Matrix4x4(
-        x = Vector4(x.x,         x.y,         0.convert(), 0.convert()),
-        y = Vector4(y.x,         y.y,         0.convert(), 0.convert()),
-        z = Vector4(0.convert(), 0.convert(), 1.convert(), 0.convert()),
-        w = Vector4(0.convert(), 0.convert(), 0.convert(), 1.convert()),
+        x = Vector4(x = x.x, y = x.y, z = 0f, w = 0f),
+        y = Vector4(x = x.x, y = y.y, z = 0f, w = 0f),
+        z = Vector4(x = 0f,  y = 0f,  z = 1f, w = 0f),
+        w = Vector4(x = 0f,  y = 0f,  z = 0f, w = 1f),
     )
 }
 
-inline fun <reified T : Number> Matrix3x3<T>.toMatrix4x4(): Matrix4x4<T> {
+inline fun Matrix3x3<Float>.toMatrix4x4(): Matrix4x4<Float> {
     return Matrix4x4(
-        x = Vector4(x.x,         x.y,         x.z,         0.convert()),
-        y = Vector4(y.x,         y.y,         y.z,         0.convert()),
-        z = Vector4(z.x,         z.y,         z.z,         0.convert()),
-        w = Vector4(0.convert(), 0.convert(), 0.convert(), 1.convert()),
+        x = Vector4(x = x.x, y = x.y, z = x.z, w = 0f),
+        y = Vector4(x = y.x, y = y.y, z = y.z, w = 0f),
+        z = Vector4(x = z.x, y = z.y, z = z.z, w = 0f),
+        w = Vector4(x = 0f,  y = 0f,  z = 0f,  w = 1f),
     )
 }
 
