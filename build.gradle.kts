@@ -29,12 +29,16 @@ kotlin {
                 defFile("external.def")
                 packageName("com.liamcoalstudio.aurora")
                 includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+                project.tasks[interopProcessingTaskName].enabled = System.getProperty("os.name") == "Linux"
             }
         }
+
         compilations.all {
             kotlinOptions {
                 freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
+
+            compileKotlinTask.enabled = System.getProperty("os.name") == "Linux"
         }
     }
 
@@ -44,12 +48,16 @@ kotlin {
                 defFile("external.def")
                 packageName("com.liamcoalstudio.aurora")
                 includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+                project.tasks[interopProcessingTaskName].enabled = System.getProperty("os.name") == "Mac OS X"
             }
         }
+
         compilations.all {
             kotlinOptions {
                 freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             }
+
+            compileKotlinTask.enabled = System.getProperty("os.name") == "Mac OS X"
         }
     }
 
