@@ -128,7 +128,7 @@ actual class ShaderHandle<T> internal actual constructor(internal val handle: UI
         vertexBuffer.bind(BufferType.VertexBuffer)
         var index = 0L
         val size = inputs.sumOf { it.inputType.size }
-        for((name, type, f) in inputs) {
+        for((name, type, _) in inputs) {
             val l = glGetAttribLocation!!(handle, name.cstr.getPointer(Arena()))
             val (s, t) = when (type) {
                 ShaderInputType.Byte -> 1 to GL_BYTE

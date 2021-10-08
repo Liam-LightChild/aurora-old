@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.liamcoalstudio"
-version = "2022.1-2021.10.07.1"
+version = "2022.1-2021.10.07.2"
 
 repositories {
     mavenCentral()
@@ -53,20 +53,20 @@ kotlin {
         }
     }
 
-    mingwX64("windows") {
-        compilations.getByName("main") {
-            val external by cinterops.creating {
-                defFile("external.def")
-                packageName("com.liamcoalstudio.aurora")
-                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
-            }
-        }
-        compilations.all {
-            kotlinOptions {
-                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-            }
-        }
-    }
+//    mingwX64("windows") {
+//        compilations.getByName("main") {
+//            val external by cinterops.creating {
+//                defFile("external.def")
+//                packageName("com.liamcoalstudio.aurora")
+//                includeDirs("/usr/include", "/usr/local/include", "/usr/include/x86_64-linux-gnu/")
+//            }
+//        }
+//        compilations.all {
+//            kotlinOptions {
+//                freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+//            }
+//        }
+//    }
 
     sourceSets {
         val commonMain by getting {
@@ -83,28 +83,25 @@ kotlin {
 
         val linuxMain by getting
         val linuxTest by getting
-        val windowsMain by getting
-        val windowsTest by getting
+//        val windowsMain by getting
+//        val windowsTest by getting
         val macosMain by getting
         val macosTest by getting
 
         val desktopMain by creating {
             dependsOn(commonMain)
             linuxMain.dependsOn(this)
-            windowsMain.dependsOn(this)
+//            windowsMain.dependsOn(this)
             macosMain.dependsOn(this)
         }
 
         val desktopTest by creating {
             dependsOn(commonTest)
             linuxTest.dependsOn(this)
-            windowsTest.dependsOn(this)
+//            windowsTest.dependsOn(this)
             macosTest.dependsOn(this)
         }
     }
-
-    val publicationsFromMainHost =
-        listOf(linuxX64("linux"), macosX64("macos"), mingwX64("windows")).map { it.name } + "kotlinMultiplatform"
 
     publishing {
         repositories {
