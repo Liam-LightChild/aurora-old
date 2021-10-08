@@ -1,37 +1,31 @@
 # Aurora Game Engine
 
-_It's pretty cool, I suppose._
-
 First release version is currently work-in-progress. When it is released,
 there will be actual documentation, including an actual readme file.
 
+You can use pre-release versions in the meantime.
+
 ## Building
 
-_The building blocks of graphics come in separate pieces. It's up to you to
-put them together in the way you want._
-
-Each platform should be build **on the platform it is designed for**, so that
+Each platform should be built **on the platform it is designed for**, so that
 all required libraries and headers are present at build time and possibly run
 time.
 
-Build and Test everything that can be built on the host platform
-(currently not working properly): `./gradlew build`  
-Build Linux only: `./gradlew linuxMainKlibrary`  
-Test Linux only: `./gradlew linuxTest`  
-Build macOS only: `./gradlew macosMainKlibrary`  
-Test macOS only: `./gradlew macosTest`
+**Build Linux:** `./gradlew linuxMainKlibrary`  
+**Test Linux:** `./gradlew linuxTest`
+
+**Build macOS:** `./gradlew macosMainKlibrary`  
+**Test macOS:** `./gradlew macosTest`
 
 ### Multi-platform setup
-
-_If you `expect fun`, you shall have more `actual fun` than `expect`ed._
 
 Aurora uses a hierarchical multi-platform setup. It is arranged in this way:
 
 * `common` (`main` and `test`) Common code across all platforms. Contains the
   main API elements.
     * `desktop` (`main` and `test`) Common code across native desktop platforms.
-        * `linux` (`main` and `test`) Linux Aurora implementation
-        * `macos` (`main` and `test`) macOS Aurora implementation
+        * `linux` (`main` and `test`) Linux implementation
+        * `macos` (`main` and `test`) macOS implementation
 
 ## Basic usage
 
