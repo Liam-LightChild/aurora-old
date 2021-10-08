@@ -24,7 +24,7 @@ kotlin {
 
     // DESKTOP
 
-    linuxX64("linux") {
+    linuxX64 {
         compilations.getByName("main") {
             val external by cinterops.creating {
                 defFile("external.def")
@@ -43,7 +43,7 @@ kotlin {
         }
     }
 
-    macosX64("macos") {
+    macosX64 {
         compilations.getByName("main") {
             val external by cinterops.creating {
                 defFile("external.def")
@@ -91,37 +91,37 @@ kotlin {
             }
         }
 
-        val linuxMain by getting
-        val linuxTest by getting
+        val linuxX64Main by getting
+        val linuxX64Test by getting
 //        val windowsMain by getting
 //        val windowsTest by getting
-        val macosMain by getting
-        val macosTest by getting
+        val macosX64Main by getting
+        val macosX64Test by getting
 
         val desktopMain by creating {
             dependsOn(commonMain)
-            linuxMain.dependsOn(this)
+            linuxX64Main.dependsOn(this)
 //            windowsMain.dependsOn(this)
-            macosMain.dependsOn(this)
+            macosX64Main.dependsOn(this)
         }
 
         val desktopTest by creating {
             dependsOn(commonTest)
-            linuxTest.dependsOn(this)
+            linuxX64Test.dependsOn(this)
 //            windowsTest.dependsOn(this)
-            macosTest.dependsOn(this)
+            macosX64Test.dependsOn(this)
         }
     }
 
     publishing {
         repositories {
             maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/LiamCoal/aurora")
+                name = "nexus"
+                url = uri("https://www.liamiam.com/repository/maven-pre/")
 
                 credentials {
-                    username = project.findProperty("gpr.user")?.toString() ?: System.getenv("USERNAME")
-                    password = project.findProperty("gpr.key")?.toString() ?: System.getenv("TOKEN")
+                    username = project.findProperty("publish.user")?.toString() ?: System.getenv("USERNAME")
+                    password = project.findProperty("publish.password")?.toString() ?: System.getenv("PASSWORD")
                 }
             }
         }
