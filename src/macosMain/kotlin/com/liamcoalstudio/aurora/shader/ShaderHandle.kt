@@ -162,6 +162,10 @@ actual class ShaderHandle<T> internal actual constructor(internal val handle: UI
 
         return c
     }
+
+    actual fun uniform(name: String): Uniform {
+        return Uniform(this, glGetUniformLocation(handle, name))
+    }
 }
 
 actual enum class ShaderType(internal val native: GLenum) {
