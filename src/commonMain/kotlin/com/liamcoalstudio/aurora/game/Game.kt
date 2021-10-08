@@ -94,10 +94,9 @@ internal expect fun endFrame(windowHandle: WindowHandle)
 fun Game.run() {
     val window = openWindow { window() }
 
+    window.use()
+    init(window)
     try {
-        window.use()
-        init(window)
-
         while(!window.shouldClose) {
             startFrame(window)
             draw(window)
