@@ -28,43 +28,56 @@ _If you `expect fun`, you shall have more `actual fun` than `expect`ed._
 Aurora uses a hierarchical multi-platform setup. It is arranged in this way:
 
 * `common` (`main` and `test`) Common code across all platforms. Contains the
-main API elements.
-  * `jvm` (`main` and `test`) **UNIMPLEMENTED**
-  * `desktop` (`main` and `test`) Common code across native desktop platforms.
-    * `linux` (`main` and `test`) Linux Aurora implementation
-    * `macos` (`main` and `test`) macOS Aurora implementation
-    * `windows` (`main` and `test`) **UNIMPLEMENTED**
+  main API elements.
+    * `desktop` (`main` and `test`) Common code across native desktop platforms.
+        * `linux` (`main` and `test`) Linux Aurora implementation
+        * `macos` (`main` and `test`) macOS Aurora implementation
 
 ## Basic usage
 
-Aurora is quite simple to get started with. The following code opens a window
+Aurora is easy to get started with. The following code opens a window
 and adds a simple shader to it:
 
 ```kotlin
-import com.liamcoalstudio.aurora.*
-
-fun main() = project {
-    // The text here is NOT the title of the window; it's the id!
-    window("window.default") {
-        title("Window")
-        windowed(800, 600) // Short for span(WindowSpan.Windowed(800, 600))
+class ShaderGame : Game() {
+    // Config options for the window
+    // Run by `Game`
+    override fun WindowOpenBuilder.window() {
+        invisible()
+        title("Shader Game")
     }
 
-    // When there is a single window, just write `window` here.
-    // Otherwise, write `window("<id>") resources {...}`
-    window resources {
-        add shader {
-            // Resources have id's they are referred to by.
-            named("shader.default")
-            // `from("")` loads assets from the `assets/` directory.
-            vertex(from("shader/default/vertex.glsl"))
-            // `from` just calls `asset`, so this is equivalent
-            fragment(asset("shader/default/fragment.glsl"))
-        }
+    // Shader that is created when possible
+    // `Nothing` here means no input is
+    // configured.
+    val shader by shader<Nothing> {
+        vertex("""
+                #version 150 core
+                
+                void main() {
+                    gl_Position = vec4(0, 0, 0, 1);
+                }
+            """.trimIndent())
 
-        // Example of getting a shader's value by id (explicit typing is
-        // required)
-        val shader: ShaderHandle by "shader.default"
+        // Sometimes called a pixel shader
+        fragment("""
+                #version 150 core
+                
+                void main() { }
+            """.trimIndent())
+    }
+
+    override fun init(window: WindowHandle) {
+        build(shader)
+        window.shouldClose = true
+    }
+    
+    // Empty frame handlers can be omitted.
+    // override fun draw(window: WindowHandle) {}
+    // override fun update(window: WindowHandle) {}
+
+    override fun quit(window: WindowHandle) {
+        shader.get().delete()
     }
 }
 ```
