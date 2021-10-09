@@ -2,7 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="16">
+      <module name="aurora.commonMain" target="1.8" />
       <module name="aurora.commonTest" target="1.8" />
+      <module name="com.liamcoalstudio.aurora.commonTest" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
