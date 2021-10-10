@@ -2,48 +2,13 @@ package com.liamcoalstudio.aurora.game
 
 import com.liamcoalstudio.aurora.*
 import com.liamcoalstudio.aurora.shader.ShaderHandle
-import com.liamcoalstudio.aurora.shader.ShaderInput
-import com.liamcoalstudio.aurora.shader.ShaderInputType
 import com.liamcoalstudio.aurora.shader.ShaderType
-import com.liamcoalstudio.aurora.window.*
+import com.liamcoalstudio.aurora.texture.Texture
+import com.liamcoalstudio.aurora.window.WindowHandle
+import com.liamcoalstudio.aurora.window.WindowOpenBuilder
+import com.liamcoalstudio.aurora.window.WindowSpan
+import com.liamcoalstudio.aurora.window.getFullscreenSize
 import kotlin.reflect.KProperty
-import kotlin.reflect.KProperty1
-
-class CreatingShader<T> internal constructor(private val game: Game) {
-    @Deprecated("not recommended")
-    constructor(game: Game, f: CreatingShader<T>.() -> Unit) : this(game) {
-        f()
-    }
-
-    private lateinit var vertex: String
-    private lateinit var fragment: String
-
-    val inputs = mutableListOf<ShaderInput<*, T>>()
-
-    fun vertex(s: String) { vertex = s }
-    fun fragment(s: String) { fragment = s }
-
-    fun vertex(s: () -> String) { vertex = s() }
-    fun fragment(s: () -> String) { fragment = s() }
-
-    fun <V> input(p: KProperty1<T, V>, type: ShaderInputType<V>) {
-        inputs.add(ShaderInput(p.name, type, p::get))
-    }
-
-    internal fun build() = ShaderRef(vertex, fragment, inputs)
-}
-
-class CreatingWindow internal constructor(private val f: WindowOpenBuilder.() -> Unit) {
-    operator fun getValue(t: Any?, p: KProperty<*>): WindowHandle = build()
-
-    internal inline fun build(): WindowHandle {
-        return openWindow(f)
-    }
-}
-
-interface Delegatable<T> {
-    operator fun getValue(t: Any?, p: KProperty<*>): T
-}
 
 abstract class Game {
     init {
@@ -91,28 +56,9 @@ abstract class Game {
             it.finish()
         })
     }
-}
 
-internal expect fun startGame()
-internal expect fun endGame()
-internal expect fun startFrame(windowHandle: WindowHandle)
-internal expect fun endFrame(windowHandle: WindowHandle)
-
-fun Game.run() {
-    val window = openWindow { window() }
-
-    window.use()
-    init(window)
-    try {
-        while(!window.shouldClose) {
-            startFrame(window)
-            draw(window)
-            update(window)
-            endFrame(window)
-        }
-    } finally {
-        quit(window)
-        window.close()
-        endGame()
+    inline fun build(ref: TextureRef) {
+        ref.fulfill(Texture.open(ref.image))
     }
 }
+

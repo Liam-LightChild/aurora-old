@@ -8,7 +8,6 @@ class ShaderRef<T>(val vertexSource: String, val fragmentSource: String, val inp
     private var value: ShaderHandle<T>? = null
 
     override fun get() = value ?: throw IllegalStateException("value is $value")
-
     override fun fulfill(t: ShaderHandle<T>) { if(value == null) value = t }
 }
 

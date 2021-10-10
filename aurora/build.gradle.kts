@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.liamcoalstudio.aurora"
-version = "2022.1-2021.10.08.1"
+version = "2022.1-2021.10.09.1"
 
 repositories {
     mavenCentral()
@@ -82,6 +82,8 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.3.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-io:0.1.1")
             }
         }

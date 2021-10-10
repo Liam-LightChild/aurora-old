@@ -1,9 +1,5 @@
 package com.liamcoalstudio.aurora.game
 
-import com.liamcoalstudio.aurora.glfwInit
-import com.liamcoalstudio.aurora.glfwPollEvents
-import com.liamcoalstudio.aurora.glfwSwapBuffers
-import com.liamcoalstudio.aurora.glfwTerminate
 import com.liamcoalstudio.aurora.window.WindowHandle
 import kotlinx.cinterop.reinterpret
 
