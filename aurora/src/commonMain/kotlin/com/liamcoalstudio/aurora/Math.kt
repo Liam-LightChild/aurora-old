@@ -24,37 +24,50 @@ typealias Vector4d = Vector4<Double>
 @Serializable data class Matrix4x4<T>(val x: Vector4<T>, val y: Vector4<T>, val z: Vector4<T>, val w: Vector4<T>)
 
 object Matrix {
-    inline fun scale(by: Vector2<Float>): Matrix2x2<Float> {
-        return Matrix2x2(
-            x = Vector2f(by.x, 0f),
-            y = Vector2f(0f, by.y)
-        )
-    }
+    inline fun scale(by: Vector2<Float>) = Matrix2x2(
+        x = Vector2f(by.x, 0f),
+        y = Vector2f(0f, by.y)
+    )
 
-    inline fun scale(by: Vector3<Float>): Matrix3x3<Float> {
-        return Matrix3x3(
-            x = Vector3f(by.x, 0f, 0f),
-            y = Vector3f(0f, by.y, 0f),
-            z = Vector3f(0f, 0f, by.z)
-        )
-    }
+    inline fun scale(by: Vector3<Float>) = Matrix3x3(
+        x = Vector3f(by.x, 0f, 0f),
+        y = Vector3f(0f, by.y, 0f),
+        z = Vector3f(0f, 0f, by.z)
+    )
 
-    inline fun translate(by: Vector2<Float>): Matrix3x3<Float> {
-        return Matrix3x3(
-            x = Vector3f(0f, 0f, by.x),
-            y = Vector3f(0f, 0f, by.y),
-            z = Vector3f(0f, 0f, 1f),
-        )
-    }
+    inline fun translate(by: Vector2<Float>) = Matrix3x3(
+        x = Vector3f(0f, 0f, by.x),
+        y = Vector3f(0f, 0f, by.y),
+        z = Vector3f(0f, 0f, 1f),
+    )
 
-    inline fun translate(by: Vector3<Float>): Matrix4x4<Float> {
-        return Matrix4x4(
-            x = Vector4f(0f, 0f, 0f, by.x),
-            y = Vector4f(0f, 0f, 0f, by.y),
-            z = Vector4f(0f, 0f, 0f, by.z),
-            w = Vector4f(0f, 0f, 0f, 1f),
-        )
-    }
+    inline fun translate(by: Vector3<Float>) = Matrix4x4(
+        x = Vector4f(0f, 0f, 0f, by.x),
+        y = Vector4f(0f, 0f, 0f, by.y),
+        z = Vector4f(0f, 0f, 0f, by.z),
+        w = Vector4f(0f, 0f, 0f, 1f),
+    )
+
+    inline fun orthographicProjection(
+        left: Float,
+        right: Float,
+        top: Float,
+        bottom: Float,
+        far: Float,
+        near: Float
+    ) = Matrix4x4(
+        x = Vector4f(2 / (right - left), 0f, 0f, -((right + left) / (right - left))),
+        y = Vector4f(0f, 2 / (top - bottom), 0f, -((top + bottom) / (top - bottom))),
+        z = Vector4f(0f, 0f, -2 / (far - near), -((far + near) / (far - near))),
+        w = Vector4f(0f, 0f, 0f, 1f)
+    )
+
+    inline fun orthographicProjection(
+        right: Float,
+        top: Float,
+        far: Float,
+        near: Float
+    ) = orthographicProjection(-right, right, -top, top, far, near)
 }
 
 inline fun Matrix2x2<Float>.toMatrix3x3(): Matrix3x3<Float> {
@@ -151,6 +164,16 @@ inline operator fun Vector4f. times(o: Vector4f) =   Vector4f(x * o.x, y * o.y, 
 inline operator fun Vector4i. times(o: Vector4i) =   Vector4i(x * o.x, y * o.y, z * o.z, w * o.w)
 inline operator fun Vector4ui.times(o: Vector4ui) = Vector4ui(x * o.x, y * o.y, z * o.z, w * o.w)
 inline operator fun Vector4d. times(o: Vector4d) =   Vector4d(x * o.x, y * o.y, z * o.z, w * o.w)
+
+inline operator fun Vector2f.unaryMinus() = Vector2f(-x, -y)
+inline operator fun Vector2i.unaryMinus() = Vector2i(-x, -y)
+inline operator fun Vector2d.unaryMinus() = Vector2d(-x, -y)
+inline operator fun Vector3f.unaryMinus() = Vector3f(-x, -y, -z)
+inline operator fun Vector3i.unaryMinus() = Vector3i(-x, -y, -z)
+inline operator fun Vector3d.unaryMinus() = Vector3d(-x, -y, -z)
+inline operator fun Vector4f.unaryMinus() = Vector4f(-x, -y, -z, -w)
+inline operator fun Vector4i.unaryMinus() = Vector4i(-x, -y, -z, -w)
+inline operator fun Vector4d.unaryMinus() = Vector4d(-x, -y, -z, -w)
 
 inline fun Vector2f.toScaleMatrix2x2() = Matrix.scale(this)
 inline fun Vector2f.toScaleMatrix3x3() = Matrix.scale(this).toMatrix3x3()
