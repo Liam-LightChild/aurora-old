@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.liamcoalstudio.aurora"
-version = "2022.1-2021.10.09.1"
+version = "2022.1-2021.10.16.1"
 
 repositories {
     mavenCentral()

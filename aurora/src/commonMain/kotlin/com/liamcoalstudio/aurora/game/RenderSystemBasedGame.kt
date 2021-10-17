@@ -5,34 +5,36 @@ import com.liamcoalstudio.aurora.window.WindowHandle
 
 abstract class RenderSystemBasedGame : Game() {
     private var renderReal: RenderSystem? = null
+    private lateinit var window: WindowHandle
 
     var render
         get() = renderReal ?: throw IllegalStateException("RenderSystem not set")
         private set(value) {
-            renderReal?.unimplement() // possibly null!
+            renderReal?.unimplement(window) // possibly null!
             renderReal = value
-            renderReal!!.implement()
+            renderReal!!.implement(window)
         }
 
     abstract fun initial(): RenderSystem
 
     override fun init(window: WindowHandle) {
         super.init(window)
-        render = initial().also { it.implement() }
+        this.window = window;
+        render = initial().also { it.implement(window) }
     }
 
     override fun draw(window: WindowHandle) {
         super.draw(window)
-        render.draw()
+        render.draw(window)
     }
 
     override fun update(window: WindowHandle) {
         super.update(window)
-        render.update()
+        render.update(window)
     }
 
     override fun quit(window: WindowHandle) {
         super.quit(window)
-        render.unimplement()
+        render.unimplement(window)
     }
 }
