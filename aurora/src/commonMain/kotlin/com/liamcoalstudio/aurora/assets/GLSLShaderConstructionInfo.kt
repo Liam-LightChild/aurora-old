@@ -2,17 +2,12 @@
 
 package com.liamcoalstudio.aurora.assets
 
-import com.liamcoalstudio.aurora.Vector3f
-import com.liamcoalstudio.aurora.Vector4f
 import com.liamcoalstudio.aurora.game.ShaderRef
 import com.liamcoalstudio.aurora.shader.ShaderInput
 import com.liamcoalstudio.aurora.shader.ShaderInputType
 import com.liamcoalstudio.aurora.shader.ShaderType
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
 import kotlinx.serialization.cbor.Cbor
-import kotlinx.serialization.decodeFromByteArray
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlin.reflect.KProperty1
 
@@ -29,7 +24,7 @@ data class GLSLShaderInput(
 )
 
 @Serializable
-enum class GLSLShaderInputType(val type: ShaderInputType<*>) {
+enum class GLSLShaderInputType(@Transient val type: ShaderInputType<*>) {
     BYTE(ShaderInputType.Byte),
     FLOAT(ShaderInputType.Float),
     DOUBLE(ShaderInputType.Double),
@@ -74,8 +69,4 @@ fun <T> shader(asset: Asset, vararg properties: KProperty1<T, Any>): ShaderRef<T
         it.name,
         it.type.type as ShaderInputType<Any>,
         p[it.name]!!::get) })
-}
-
-fun test() {
-    data class Vertex(val vPosition: Vector3f, val vColor: Vector4f)
 }
